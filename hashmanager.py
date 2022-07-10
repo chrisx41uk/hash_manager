@@ -7,7 +7,7 @@ class GenericParser:
     def parseNTLMLine(ntlmLine : str):
         """
         Parse an individual NTLM line
-        username:1150:aad3b435b51404eeaad3b435b51404ee:b53e2c85b653d4ccff905d0b1ff06f53:::
+        username:1150:aad3b435b51404eeaad3b435b51404ee:b53e2c85b6ffffd4ccff905d0b1ff06f53:::
         :param ntlmLine: The line to pass
         """
 
@@ -38,7 +38,20 @@ class OutputParser:
             with open(outputFilePath, encoding="utf-8") as f:
                 for line in f:
                     line = line.lower()
-
+                    #split the line up into better fields
+                    split = line.split(':')
+                    username = split[0]
+                    rid = split[1]
+                    hashOriginal = split[2] + ':' + split[3]
+                    #is there extra information from impacket?
+                    match = re.search('pwdlastset=([^)]+)', line)
+                    lastChanged = "UNKNOWN"
+                    if match:
+                        lastChanged = match.group(1)
+                    match = re.search('status=(\w+)', line)
+                    status = "UNKNOWN"
+                    if match:
+                        status = match.group(1)
                     if fileType == "raw":
                         hash = line.rstrip()
                     elif fileType == "ntds":
@@ -49,7 +62,7 @@ class OutputParser:
                     if hash in self.hashToPass:
                         password = self.hashToPass[hash]
                         count += 1
-                    o.write(password + ", " + line)
+                    o.write(f"{password}, {username}, {rid}, {hashOriginal}, {status}, {lastChanged}\n")
         print("{} passwords were cracked and put into {}".format(count, outputFilePath))
 
 class InputParser:
