@@ -76,7 +76,7 @@ class InputParser:
     def saveUniqueHashesToFile(self, filePath : str):
         with open(filePath, 'w', encoding='utf-8') as f:
             for uniqueHash in self.uniqueHashes:
-                f.write(uniqueHash + "\n")
+                f.write(str(uniqueHash) + "\n")
         print("Just saved hashes to {}. Crack this file with hashcat!".format(filePath))
 
     def parseFile(self, filePath : str, fileType: str):
