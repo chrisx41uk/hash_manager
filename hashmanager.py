@@ -90,13 +90,12 @@ class InputParser:
 if __name__ == "__main__":
 
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--type", help="The type of file to crack")
-    argparser.add_argument("--input", help="The input file containing hashes")
-    argparser.add_argument("--original", help="The original file to enrich with cracked passwords")
+    argparser.add_argument("--input", help="The file from secretsdump.py to parse and crack with hashcat")
+    argparser.add_argument("--original", help="The original The file from secretsdump.py to parse and crack with hashcat")
     argparser.add_argument("--potfile", help="The hashcat pot file to take passwords from")
     args = argparser.parse_args()
 
-    if args.type == "ntds" and args.input:
+    if args.input:
         ip = InputParser()
         ip.parseFile(args.input, "ntds")
         ip.saveUniqueHashesToFile('crackme.txt')
