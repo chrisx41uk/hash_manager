@@ -61,7 +61,7 @@ class OutputParser:
                         password = self.hashToPass[hash]
                         count += 1
                         o.write(f"{password}, {username}, {rid}, {hashOriginal}, {status}, {lastChanged}\n")
-        print("{} passwords were cracked and put into {}".format(count, "merged_" + outputFilePath))
+        print("{} passwords were cracked and put into merged_{}".format(count, outputFilePath))
 
 class InputParser:
     """
