@@ -57,13 +57,11 @@ class OutputParser:
                     elif fileType == "ntds":
                         hash = GenericParser.parseNTLMLine(line)
 
-                    #lookup hash
-                    password = "<NOTCRACKED>"
                     if hash in self.hashToPass:
                         password = self.hashToPass[hash]
                         count += 1
-                    o.write(f"{password}, {username}, {rid}, {hashOriginal}, {status}, {lastChanged}\n")
-        print("{} passwords were cracked and put into {}".format(count, outputFilePath))
+                        o.write(f"{password}, {username}, {rid}, {hashOriginal}, {status}, {lastChanged}\n")
+        print("{} passwords were cracked and put into {}".format(count, "merged_" + outputFilePath))
 
 class InputParser:
     """
